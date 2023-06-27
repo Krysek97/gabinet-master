@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import WithLogout from "../navbars/WithLogout";
 
 
 function Client(){
@@ -18,7 +19,7 @@ function Client(){
       });
     }
       fetchClient();
-    }, []);
+    });
 
   const [visit, setVisit] = useState([]);
     useEffect(() => {
@@ -33,7 +34,7 @@ function Client(){
       });
     }
       fetchVisit();
-    }, []);
+    });
 
     const handleDelete=(e,visitId)=>{
         e.preventDefault();
@@ -52,6 +53,7 @@ function Client(){
 
     return (
      <div>
+      <WithLogout></WithLogout>
      <h2>Karta klienta</h2>
      <div>{client.firstName} {client.lastName}</div>
      <div>{client.dateOfBirth}</div>

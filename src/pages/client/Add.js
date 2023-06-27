@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+import WithLogout from '../navbars/WithLogout';
 
 function Add(){
   const [firstName , setFirstName] = useState('');
   const [lastName , setLastName] = useState('');
   const [phoneNumber , setPhoneNumber] = useState('');
   const [dateOfBirth , setDateOfBirth] = useState('');
+  const cookie = new Cookies;
 
   const handleFirstNameChange =(e)=>{
     setFirstName(e.target.value);
@@ -33,10 +36,11 @@ function Add(){
         headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             "Access-Control-Allow-Origin": "*",
+            'Authorization' : 'Bearer ' + cookie.get('token'),
         }
       };
       
-      axios.post("http://localhost:8080/client/add", body)
+      axios.post("http://localhost:8080/client/add", body, config)
       .then((response) => {
         console.log(response.data);
       })
@@ -47,6 +51,7 @@ function Add(){
 
 return (
   <form onSubmit={(e) => {handleSubmit(e)}}>
+      <WithLogout></WithLogout>
   <h2> Nowy klient </h2>
       <label >
         Imię:

@@ -1,50 +1,67 @@
 import React, {useState} from "react";
 import "./../../login.css";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 function Login(){
 
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [errorMessages, setErrorMessages] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitted, setSubmitted] = useState(false);
+    const cookies = new Cookies;
   
-    // User Login info
-    const database = [
-      {
-        username: "user1",
-        password: "pass1"
-      },
-      {
-        username: "user2",
-        password: "pass2"
-      }
-    ];
   
     const errors = {
-      uname: "Błędny login",
-      pass: "Błędne hasło"
+      blank: "Wymagane dane"
     };
   
-    const handleSubmit = (event) => {
+    const handleSubmit = (e) => {
       //Prevent page reload
-      event.preventDefault();
-  
-      var { uname, pass } = document.forms[0];
-  
-      // Find user login info
-      const userData = database.find((user) => user.username === uname.value);
-  
-      // Compare user info
-      if (userData) {
-        if (userData.password !== pass.value) {
-          // Invalid password
-          setErrorMessages({ name: "pass", message: errors.pass });
-        } else {
-          setIsSubmitted(true);
-        }
-      } else {
-        // Username not found
-        setErrorMessages({ name: "uname", message: errors.uname });
+      e.preventDefault();
+      
+      if (username === '' || password === ''){
+        setErrorMessages({name: 'blank', message: errors.blank});
       }
+
+      const body = {
+        username: username,
+        password: password,
+      };
+      console.log(body);
+      let config = {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+        }
+      };
+
+      axios.post("http://localhost:8080/api/authenticate", body)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.token !== undefined){
+          cookies.set('token', response.data.token)
+          window.location.replace('/');
+        } else {
+          setErrorMessages({name: response.data.error, message: response.data.message});
+        }
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
     };
+
+    // Handling the name change
+    const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    setSubmitted(false);
+    };
+             
+    // Handling the password change
+    const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setSubmitted(false);
+     };
   
     // Generate JSX code for error message
     const renderErrorMessage = (name) =>
@@ -58,22 +75,23 @@ function Login(){
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label>Login </label>
-            <input type="text" name="uname" required />
-            {renderErrorMessage("uname")}
+            <input type="text" name="uname" 
+            required onChange={(e) => {handleUsernameChange(e)}}  />
           </div>
           <div className="input-container">
             <label>Hasło </label>
-            <input type="password" name="pass" required />
-            {renderErrorMessage("pass")}
+            <input type="password" name="pass" 
+            required onChange={(e) => {handlePasswordChange(e)}}/>
           </div>
           
           <div className="button-container">
-            <input type="submit" value={"Zaloguj się"}/>
+            <input type="submit" value={"Zaloguj się"} />
           </div>
           <a href="/register">Nie masz konta? Zarejestruj się</a>
         </form>
       </div>
     );
+    
   
     return (
       <div className="app">

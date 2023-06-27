@@ -1,17 +1,20 @@
+import WithLogout from '../navbars/WithLogout';
 import axios from 'axios';
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";;
+import { useParams } from "react-router-dom";import Cookies from 'universal-cookie';
+;
 
 
 function Add(){
   const [date , setDate] = useState('');
   const [note , setNote] = useState('');
+  const cookie = new Cookies;
 
   const [client, setClient] = useState([]);
     const {id} = useParams()
     useEffect(() => {
       fetchClient();
-    }, []);
+    });
   const fetchClient = () => {
     axios
       .get('http://localhost:8080/client/'+id)
@@ -43,10 +46,11 @@ function Add(){
         headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             "Access-Control-Allow-Origin": "*",
+            'Authorization' : 'Bearer ' + cookie.get('token'),
         }
       };
       
-      axios.post("http://localhost:8080/visit/add", body)
+      axios.post("http://localhost:8080/visit/add", body, config)
       .then((response) => {
         console.log(response.data);
       })
@@ -57,6 +61,7 @@ function Add(){
 
 return (
   <form onSubmit={(e) => {handleSubmit(e)}}>
+  <WithLogout></WithLogout>
   <h2> Nowa wizyta </h2>
     <label>
         Klient:
