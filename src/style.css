@@ -2,3 +2,14 @@
     color: grey;
     font-weight: bold;
   }
+
+  .profile{
+    margin-left: auto; 
+    margin-right: 1vw;
+    display: flex;
+  }
+
+  .menuClient{
+    height: fit-content; 
+    display: flex;
+  }
