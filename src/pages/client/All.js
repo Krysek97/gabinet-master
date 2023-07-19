@@ -7,10 +7,14 @@ function All(){
 
   const cookie = new Cookies;
   const [clients, setClients] = useState([]);
-  useEffect(() => {
+  const [count, setCount] = useState(-1);  
+
+  useEffect(() =>  {
     fetchClients();
+    setCount(1);
   });
-  const fetchClients = () => {
+  const fetchClients = () =>  {
+    if (count<0){
     let config = {
       headers: {
           'Content-Type': 'application/json;charset=UTF-8',
@@ -28,6 +32,7 @@ function All(){
         console.log(err);
         console.log(config);
       });
+    }
     }
   return (
     <div>
