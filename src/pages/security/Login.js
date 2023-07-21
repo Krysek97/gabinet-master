@@ -9,7 +9,7 @@ function Login(){
     const [password, setPassword] = useState('');
     const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setSubmitted] = useState(false);
-    const cookies = new Cookies;
+    const cookies = new Cookies();
   
   
     const errors = {
@@ -40,7 +40,7 @@ function Login(){
       .then((response) => {
         console.log(response.data);
         if (response.data.token !== undefined){
-          cookies.set('token', response.data.token)
+          cookies.set('token', response.data.token, {maxAge: 3600})
           window.location.replace('/');
         } else {
           setErrorMessages({name: response.data.error, message: response.data.message});
