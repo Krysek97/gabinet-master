@@ -36,11 +36,11 @@ function Login(){
         }
       };
 
-      axios.post("http://localhost:8080/api/authenticate", body)
+      axios.post("http://localhost:8080/api/authenticate", body, config)
       .then((response) => {
         console.log(response.data);
         if (response.data.token !== undefined){
-          cookies.set('token', response.data.token, {maxAge: 3600})
+          cookies.set('token', response.data.token, {maxAge:18000})
           window.location.replace('/');
         } else {
           setErrorMessages({name: response.data.error, message: response.data.message});

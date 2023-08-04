@@ -6,9 +6,13 @@ const PrivateRoute = ({children})=>{
     const cookie = new Cookies();
     const token = cookie.get('token');
 
-    return (
-        token ? children : <Navigate to= "/login"/>
-    );
+        if(token) {
+          return children 
+        } else {
+           return <Navigate to= "/login"/>    
+        } 
+    
+
   };
   
   export default PrivateRoute;

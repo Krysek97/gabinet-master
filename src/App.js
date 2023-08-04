@@ -4,6 +4,7 @@ import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import './style.css';
 import Sites from './pages/navbars/Sites';
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 function App() {

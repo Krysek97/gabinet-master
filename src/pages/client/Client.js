@@ -1,40 +1,45 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import WithLogout from "../navbars/WithLogout";
+import Cookies from "universal-cookie";
 
 
 function Client(){
     const [client, setClient] = useState([]);
-    const {id} = useParams()
+    const {id} = useParams();
+    const [visit, setVisit] = useState([]);
+    const cookie = new Cookies();
+    const [count, setCount] = useState(-1);  
+
+    let config = {
+      headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+          'Authorization' : 'Bearer ' + cookie.get('token'),
+      }
+    };
+
     useEffect(() => {
-    const fetchClient = () => {
-    axios
-      .get('http://localhost:8080/client/'+id)
+      if (count<0){
+      axios
+      .get('http://localhost:8080/client/'+id, config)
       .then((res) => {
         setClient(res.data)
       })
       .catch((err) => {
         console.log(err);
       });
-    }
-      fetchClient();
-    });
-
-  const [visit, setVisit] = useState([]);
-    useEffect(() => {
-    const fetchVisit = () => {
-    axios
-      .get('http://localhost:8080/visit/client/'+id)
+      axios
+      .get('http://localhost:8080/visit/client/'+id, config)
       .then((res) => {
         setVisit(res.data)
       })
       .catch((err) => {
         console.log(err);
-      });
-    }
-      fetchVisit();
-    });
+      });}
+      setCount(1);
+   });
+
 
     const handleDelete=(e,visitId)=>{
         e.preventDefault();
@@ -53,7 +58,6 @@ function Client(){
 
     return (
      <div>
-      <WithLogout></WithLogout>
      <h2>Karta klienta</h2>
      <div>{client.firstName} {client.lastName}</div>
      <div>{client.dateOfBirth}</div>

@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import WithLogout from '../navbars/WithLogout';
 
 function All(){
 
-  const cookie = new Cookies;
+  const cookie = new Cookies();
   const [clients, setClients] = useState([]);
   const [count, setCount] = useState(-1);  
 
@@ -13,6 +12,7 @@ function All(){
     fetchClients();
     setCount(1);
   });
+
   const fetchClients = () =>  {
     if (count<0){
     let config = {
@@ -25,7 +25,6 @@ function All(){
     axios
       .get('http://localhost:8080/client/all', config)
       .then((res) => {
-        //console.log(res);
         setClients(res.data)
       })
       .catch((err) => {
@@ -34,9 +33,9 @@ function All(){
       });
     }
     }
+
   return (
     <div>
-      <WithLogout></WithLogout>
       <h1>Wszyscy klienci</h1>
       <div className='client-container'>
         {clients.map((client)=>(

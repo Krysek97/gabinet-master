@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import WithLogout from '../navbars/WithLogout';
+import { Form } from 'react-bootstrap';
 
 function Add(){
   const [firstName , setFirstName] = useState('');
@@ -23,8 +24,8 @@ function Add(){
     setDateOfBirth(e.target.value);
   }
   const handleSubmit=(e)=>{
-      alert('Dodano klienta:"' + firstName + " " + lastName + '"');
       e.preventDefault();
+      alert('Dodano klienta:"' + firstName + " " + lastName + '"');
       const body = {
         firstName: firstName,
         lastName: lastName,
@@ -50,8 +51,7 @@ function Add(){
   }
 
 return (
-  <form onSubmit={(e) => {handleSubmit(e)}}>
-      <WithLogout></WithLogout>
+  <Form method='POST' onSubmit={(e) => {handleSubmit(e)}}>
   <h2> Nowy klient </h2>
       <label >
         Imię:
@@ -70,7 +70,7 @@ return (
       </label><br/>
       <input name='dateOfBirth' type="date" value={dateOfBirth} required onChange={(e) => {handleDateOfBirthChange(e)}} /><br/>
       <input type="submit" value="Potwierdź"/>
-    </form>
+    </Form>
 );
 }       
 

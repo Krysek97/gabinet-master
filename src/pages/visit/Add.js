@@ -1,4 +1,3 @@
-import WithLogout from '../navbars/WithLogout';
 import axios from 'axios';
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";import Cookies from 'universal-cookie';
@@ -61,7 +60,6 @@ function Add(){
 
 return (
   <form onSubmit={(e) => {handleSubmit(e)}}>
-  <WithLogout></WithLogout>
   <h2> Nowa wizyta </h2>
     <label>
         Klient:

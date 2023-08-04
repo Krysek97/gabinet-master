@@ -13,10 +13,11 @@ function WithLogout(){
         <MenuItem href="/clients/add">Nowy klient</MenuItem>
         <MenuItem href="/clients/all">Lista klientów</MenuItem>
       </Menu>    
-      <Menu menuButton={<MenuButton>Wizyty</MenuButton>}>
+      {/* <Menu menuButton={<MenuButton>Wizyty</MenuButton>}>
         <MenuItem href="/client/:id/visits/add" >Nowa wizyta</MenuItem>
-      </Menu> 
-      </div>    
+      </Menu>  */} 
+      </div>
+      <a href="/users/all"><button>Lista użytkowników</button></a>    
       <a href="/"><button>Strona główna</button></a>
       <a href="/logout"><button>Wyloguj</button></a> 
       <div className='profile'>Zalogowano jako <LoggedAs/></div>

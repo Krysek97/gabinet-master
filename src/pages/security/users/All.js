@@ -33,7 +33,7 @@ function All(){
       <div className='user-container'>
         {users.map((user)=>(
           <div className='userList'>
-            <div>{user.id}. {user.username} {user.role} {user.password} </div>
+            <div>{user.id}. {user.username} {user.role} </div>
             </div>
         ))}
       </div>
