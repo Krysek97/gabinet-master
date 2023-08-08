@@ -5,8 +5,8 @@ import Cookies from "universal-cookie";
 
 
 function Client(){
-    const [client, setClient] = useState([]);
-    const {id} = useParams();
+    const {clientId} = useParams();
+    const {visitId} = useParams();
     const [visit, setVisit] = useState([]);
     const cookie = new Cookies();
     const [count, setCount] = useState(-1);  
@@ -22,15 +22,7 @@ function Client(){
     useEffect(() => {
       if (count<0){
       axios
-      .get('http://localhost:8080/client/'+id, config)
-      .then((res) => {
-        setClient(res.data)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      axios
-      .get('http://localhost:8080/visit/client/'+id, config)
+      .get('http://localhost:8080/visit/'+ visitId, config)
       .then((res) => {
         setVisit(res.data)
       })
@@ -48,7 +40,7 @@ function Client(){
         axios.post("http://localhost:8080/visit/" + visitId +"/delete")
         .then((response) => {
           console.log(response.data);
-          window.location.replace("/client/"+id);
+          window.location.replace("/client/"+clientId);
         })
         .catch((error) => {
           console.log(error);
@@ -58,32 +50,34 @@ function Client(){
 
     return (
      <div>
-     <h2>Karta klienta</h2>
-     <div>{client.firstName} {client.lastName}</div>
-     <div>{client.dateOfBirth}</div>
-     <div>{client.phoneNumber}</div>
-     
-     <h3>Wizyty <a href={'/client/'+id+'/visits/add'}><button class='btn btn-outline-primary'>Dodaj wizytę</button></a></h3>
-     
-      <div class="">
-        <div class="row">
+     <h3>Szczegóły wizyty </h3>
+     <div class="">
+        <div class="row row-cols-auto">
           <div class="col fw-bold fs-5">
-          Data
+            Data
           </div>
-        </div>{visit.map((visit)=>(
-        <div class="row row-cols-auto p-2">
           <div class="col p-1">
             {visit.date}
           </div>
-          <div class="col">
-            <a href={'/client/'+id+'/visit/'+visit.id}><button class='btn btn-outline-primary'>Podgląd wizyty</button></a>
+        </div>
+        <div class="row row-cols-auto">
+        <div class="col fw-bold fs-5">
+            Notatka
           </div>
-          <div class="col">
-            <button onClick={(e) => {handleDelete(e,visit.id)}} class="btn btn-outline-danger">Usuń wizytę</button>
+          <div class="col p-1">
+            {visit.note}
           </div>
-        </div>))}
+        </div>
+      <div class='row row-cols-auto '>
+        <div class="col p-2">
+          <button onClick={(e) => {handleDelete(e,visit.id)}} class="btn btn-outline-danger">Usuń wizytę</button>
+        </div>
+        <div class="col p-2">
+          <a href={'/client/'+clientId}><button class='btn btn-outline-primary'>Powrót do karty klienta</button></a>
+        </div>
       </div>
-    </div>
+      </div>
+     </div>
     );
   };
 

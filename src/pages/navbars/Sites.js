@@ -14,6 +14,7 @@ import Registration from '../security/Registration';
 import Logout from '../security/Logout';
 import PrivateRoute from '../security/privateRoute/PrivateRoute';
 import WithLogout from './WithLogout';
+import Visit from '../visit/Visit';
 
 
 function Sites(){
@@ -29,6 +30,7 @@ function Sites(){
           <Route path="clients/all" element={<PrivateRoute><AllC/></PrivateRoute>}/>
           <Route path="client/:id" element={<PrivateRoute><Client/></PrivateRoute>}/>
           <Route path="client/:id/visits/add" element={<PrivateRoute><AddV/></PrivateRoute>}/>
+          <Route path="client/:clientId/visit/:visitId" element={<PrivateRoute><Visit/></PrivateRoute>}/>
           <Route path="users/all" element={<PrivateRoute><AllU/></PrivateRoute>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="register" element={<Registration/>}/>
